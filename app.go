@@ -20,8 +20,12 @@ type App struct {
 
 // Initialize init Database
 func (a *App) Initialize(user, password, dbname string) {
-	// connectionString := fmt.Sprintf("user=%s password=%s dbname=%s", user, password, dbname)
-	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+	var connectionString string
+	if password == "" {
+		connectionString = fmt.Sprintf("user=%s dbname=%s sslmode=disable", user, dbname)
+	} else {
+		connectionString = fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+	}
 
 	var err error
 	a.DB, err = sql.Open("postgres", connectionString)
