@@ -39,7 +39,7 @@ func (a *App) Initialize(user, password, dbname string) {
 
 // Run Start the Application
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(":8000", a.Router))
+	log.Fatal(http.ListenAndServe(addr, a.Router))
 }
 
 // Routes
