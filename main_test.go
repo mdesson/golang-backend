@@ -153,6 +153,20 @@ func TestDeleteProduct(t *testing.T) {
 	checkResponseCode(t, http.StatusNotFound, response.Code)
 }
 
+// User and Auth Tests
+
+// TODO: TestCreateUser
+
+// TODO: TestDeleteUser
+
+// TODO: TestUserNotFound
+
+// TODO: TestLoginSuccess
+
+// TODO: TestLoginFail
+
+// TODO: TestLoginSuccess
+
 // Helper Functions
 
 func ensureTableExists() {
