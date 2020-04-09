@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"strconv"
 	"testing"
@@ -20,6 +21,8 @@ const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
     price NUMERIC(10,2) NOT NULL DEFAULT 0.00,
     CONSTRAINT products_pkey PRIMARY KEY (id)
 )`
+
+// TODO: Add users table creation
 
 func TestMain(m *testing.M) {
 	a = App{}
@@ -155,17 +158,24 @@ func TestDeleteProduct(t *testing.T) {
 
 // User and Auth Tests
 
-// TODO: TestCreateUser
+func TestCreateUserRoute(t *testing.T) {
+	clearTable()
 
-// TODO: TestDeleteUser
+	formData := url.Values{
+		"username":          {"test"},
+		"firstName":         {"johnny"},
+		"lastName":          {"tester"},
+		"plaintextPassword": {"test123"},
+	}
 
-// TODO: TestUserNotFound
+	response, _ := http.PostForm("/user/create", formData)
+
+	checkResponseCode(t, http.StatusCreated, response.StatusCode)
+}
 
 // TODO: TestLoginSuccess
 
 // TODO: TestLoginFail
-
-// TODO: TestLoginSuccess
 
 // Helper Functions
 
@@ -178,6 +188,7 @@ func ensureTableExists() {
 func clearTable() {
 	a.DB.Exec("DELETE FROM products")
 	a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
+	// TODO: drop users
 }
 
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
@@ -202,3 +213,5 @@ func addProducts(count int) {
 		a.DB.Exec("INSERT INTO products(name, price) VALUES($1, $2)", "Product "+strconv.Itoa(i), (i+1.0)*10)
 	}
 }
+
+// TODO: createUser()
